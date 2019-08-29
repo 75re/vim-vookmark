@@ -494,7 +494,7 @@ function! s:VookmarkList_Exit()
 endfunction
 
 function! s:VookmarkList_LineNumber()
-	if line('.') <= 2
+	if line('.') <= 0
 		return -1
 	endif
 
@@ -578,8 +578,8 @@ endfunction
 function! s:VookmarkList_Refresh()
 	" prepare bookmark list content, in z register
 	let l:oldz=@z
-	let @z="File: ".b:original_file."\n"
-	let @z.="\" (q)uit (r)elocate (d)elete, '<cr>' to confirm selection.\n"
+	"let @z="File: ".b:original_file."\n"
+	"let @z.="\" (q)uit (r)elocate (d)elete, '<cr>' to confirm selection.\n"
 
 	let l:original_file=b:original_file
 	let l:bookmarklist_bufnr=b:bookmarklist_bufnr
@@ -601,7 +601,7 @@ function! s:VookmarkList_Refresh()
 	normal! ggVG
 	normal! dd
 	normal! "zPGdd
-	execute "3,$:sort n"
+	execute "1,$:sort n"
 	normal! gg
 	execute "resize ".min([line("$"),12])
 	set nomodified
@@ -633,6 +633,7 @@ function! s:VookmarkList()
 
 	" Map buffer exit keys
 	nnoremap <buffer> <silent> q :call <sid>VookmarkList_Exit()<cr>
+	nnoremap <buffer> <silent> <space> :call <sid>VookmarkList_Exit()<cr>
 	nnoremap <buffer> <silent> <cr> :call <sid>VookmarkList_Jump()<cr>
 
 	" Map other function keys in bookmark list window
